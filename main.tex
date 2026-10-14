@@ -1,10 +1,10 @@
 \documentclass{beamer}
 
-\usepackage[tech]{sfocs-slides}
+% Compile: latexmk -lualatex -shell-escape main.tex
+\usepackage[global]{sfocs-slides}
 
 % \usepackage{tcolorbox}
 
-\colorlet{structfgcolor}{white}
 
 \date{\today}
 \title{Elegant Coding in Elm}
@@ -17,7 +17,7 @@
 \section{Introduction}
 
 \begin{frame}{Discussion on Code Quality}
-	\includegraphics[width=\columnwidth]{repeat2}
+	\includegraphics[width=\columnwidth,height=.78\paperheight,keepaspectratio]{repeat2}
 \end{frame}
 
 \begin{frame}{Discussion on Code Quality}
@@ -307,7 +307,7 @@ call3 =
 \end{frame}
 
 \begin{frame}[fragile]{Try playing with Monad in Elm}
-	Elm doesn't support \textit{Higher Kinded Types} (for example, {\tt template} in C++), so we cannot define a general monad signature/type in Elm.
+	Elm doesn't support \textit{Higher Kinded Types} (e.g. {\tt template} in C++), so we cannot define a general monad signature/type in Elm.
 	\medskip\pause
 
 	However, we can still write them by defining those functions separately for each monad.

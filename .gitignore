@@ -26,6 +26,7 @@
 
 main.pdf
 minted_main/
+AGENTS.md
 
 ## Bibliography auxiliary files (bibtex/biblatex/biber):
 *.bbl

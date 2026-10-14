@@ -4,48 +4,22 @@
 % colors 
 \RequirePackage{xcolor}
 
-\definecolor{global}{HTML}{5BC346}
-\definecolor{tech}{HTML}{FaAA33}
-\definecolor{com}{HTML}{f690ff}
-\definecolor{game}{HTML}{5db8ef}
-
-% package options 
+% The former tech palette is now the single global theme.
+\definecolor{global}{HTML}{FAAA33}
 \RequirePackage{xkeyval}
-
-% xkeyval already loaded by lslides
-\define@boolkey{sfocs-slides.sty}[sfocsslides@]{global}[true]{}
-\define@boolkey{sfocs-slides.sty}[sfocsslides@]{tech}[true]{}
-\define@boolkey{sfocs-slides.sty}[sfocsslides@]{com}[true]{}
-\define@boolkey{sfocs-slides.sty}[sfocsslides@]{game}[true]{}
-
-% default to global
+\DeclareOptionX{global}{}
 \ExecuteOptionsX{global}
 \ProcessOptionsX
-
-\ifsfocsslides@global
-	\colorlet{topic}{global}\def\topic{global}
-\fi
-
-\ifsfocsslides@tech
-	\colorlet{topic}{tech}\def\topic{tech}
-\fi
-
-\ifsfocsslides@com
-	\colorlet{topic}{com}\def\topic{com}
-\fi
-
-\ifsfocsslides@game
-	\colorlet{topic}{game}\def\topic{game}
-\fi
+\colorlet{topic}{global}
 
 % fonts 
 
 \RequirePackage{ifxetex,ifluatex}
 \newif\ifxetexorluatex
-\ifxetex
+\ifxetex				
 	\xetexorluatextrue
 \else
-	\ifluatex
+	\ifluatex				
 		\xetexorluatextrue
 	\else
 		\xetexorluatexfalse
@@ -60,14 +34,14 @@
 
 \usefonttheme{professionalfonts}
 
-\ifxetexorluatex
-
+\ifxetexorluatex				
+	
 	\RequirePackage{fontspec}
 	\setmainfont{CMU Sans Serif}
 	\setsansfont{CMU Sans Serif}
 	\setmonofont[Scale=.9]{CMU Typewriter Text}
-
-	\ifxetex
+	
+	\ifxetex				
 		\RequirePackage{xeCJK}
 		\setCJKsansfont{AR PL UKai TW MBE:style=Book}
 	\else
@@ -76,30 +50,30 @@
 	\fi
 \fi
 
-% colortheme based on topic package option
-\definecolorset{rgb}{}{color}{slidebg,.18,.24,.3;slidefg,.9,.9,.9;titlebgtop,.55,.55,.65}
-
-\definecolorset{rgb}{}{color}{slidebg,.18,.24,.3;slidefg,.9,.9,.9;titlebgtop,.55,.55,.65}
-\colorlet{titlebgcolor}{slidebgcolor!75!black}
-\colorlet{secbgcolor}{topic}
-\colorlet{secfgcolor}{slidebgcolor}
+% Light palette with amber accents and dark, readable text.
+\definecolor{slidebgcolor}{HTML}{FFFFFF}
+\definecolor{slidefgcolor}{HTML}{243447}
+\definecolor{accentink}{HTML}{945500}
+\colorlet{titlebgcolor}{slidebgcolor}
+\colorlet{secbgcolor}{topic!18!white}
+\colorlet{secfgcolor}{slidefgcolor}
 \colorlet{chapfgcolor}{secfgcolor}
 \colorlet{chapbgcolor}{secbgcolor}
-\colorlet{keybgcolor}{topic!75!black}
+\colorlet{keybgcolor}{topic!18!white}
 \colorlet{keyfgcolor}{slidefgcolor}
 \colorlet{tocbgcolor}{secbgcolor}
 \colorlet{tocfgcolor}{secfgcolor}
 \colorlet{titlefgcolor}{slidefgcolor}
-\colorlet{structbgcolor}{secbgcolor}
-\colorlet{structfgcolor}{slidebgcolor}
-\colorlet{ucolor}{secbgcolor!50}
+\colorlet{structbgcolor}{topic!65!white}
+\colorlet{structfgcolor}{slidefgcolor}
+\colorlet{ucolor}{accentink}
 
 % images 
 \RequirePackage{graphicx}
 \graphicspath{{../assets/}{../pitch-diagram}{../poster}}
 \def\assetspath{../assets/}
 
-\IfFileExists{\assetspath/progress.pdf}{\def\logo{\assetspath/progress}}{\def\logo{SF-head}}
+
 
 \RequirePackage{tikz}
 \usetikzlibrary{shapes,calc,shadings,shadows,positioning,fit,spy}
@@ -111,13 +85,13 @@
 \setbeamersize{text margin right=.5cm}
 
 \setbeamercolor*{item projected}{bg=structbgcolor!75!bg,fg=slidebgcolor}
-\setbeamercolor{itemize item}{fg=structbgcolor!75!bg}
-\setbeamercolor{itemize subitem}{fg=structbgcolor!75!bg}
-\setbeamercolor{itemize subsubitem}{fg=structbgcolor!75!bg}
-\setbeamercolor{description item}{fg=structbgcolor}
+\setbeamercolor{itemize item}{fg=accentink}
+\setbeamercolor{itemize subitem}{fg=accentink}
+\setbeamercolor{itemize subsubitem}{fg=accentink}
+\setbeamercolor{description item}{fg=accentink}
 
 % easily change slide colors 
-\newcommand{\setslidecolor}[2][]{
+\newcommand{\setslidecolor}[2][]{				
 	\ifx#1\empty\relax
 	\else
 		\setbeamercolor*{palette tertiary}{#1}
@@ -129,7 +103,7 @@
 }
 
 % reset to default colors
-\newcommand{\resetslidecolor}{
+\newcommand{\resetslidecolor}{				
 	\setbeamercolor*{palette tertiary}{fg=structfgcolor,bg=structbgcolor}
 	\setbeamercolor*{palette primary}{fg=slidefgcolor,bg=slidebgcolor}
 	\usebeamercolor[fg]{palette primary}
@@ -138,20 +112,11 @@
 	\setbeamertemplate{background}{}
 }
 
-% compute img height based on width, option scale param
-\newcommand*{\picheight}[3][1]{
-	\newdimen\imageheight
-	\settoheight{\imageheight}{%
-		\includegraphics[width=#3,keepaspectratio]{#2}%
-	}
-	\pgfmathsetmacro{\imgh}{#1*1pt/1cm*\imageheight}
-}
-
 % section reference
 \RequirePackage{zref-titleref}
 
 % swicth to zref as default label/ref method
-\AtBeginDocument{
+\AtBeginDocument{				
 	\let\label=\zref@label
 }
 
@@ -160,29 +125,30 @@
 %
 
 % title page
-\defbeamertemplate*{title page}{sfocs-titlepage}{
+\defbeamertemplate*{title page}{sfocs-titlepage}{				
 	\begin{tikzpicture}[remember picture,overlay]
-		\hypersetup{urlcolor=topic}
-		\fill[slidebgcolor!85] (current page.north east) rectangle (current page.south west);
-		\clip (current page.north west) rectangle (current page.south east);
-		\fill[titlebgtopcolor!80] (current page.north west) -- ($(current page.west)+(0,.1)$) --
-		($(current page.west)+(2,.7)$) -- ($(current page.west)+(3,.15)$) -- ($(current
-		page.east)+(-3,.15)$) -- ($(current page.east)+(-2,.7)$) -- ($(current
-		page.east)+(0,.1)$) -- (current page.north east) -- cycle;
-
-		\node at ($(current page.center)+(0,-.75)$)	{\includegraphics[scale=.96]{joystick}};
-		\node[structbgcolor,font=\Large\bf] at ($(current page.center)+(0,-.85)$) {\href{http://focs.ji.sjtu.edu.cn/silverfocs}{S-FOCS (\topic)}};
-		\node[black!80,font=\fontsize{38}{46}\bf,align=center] at	($(current page.north)+(0,-1.85)$) {SilverFOCS\\Incubator};
-		\node[structbgcolor!50,font=\fontsize{20}{24}\em,align=center, text width=.95\paperwidth] at ($(current	page.center)+(0,-2.675)$) {\inserttitle};
-
-		\node[anchor=east,topic,font=\scriptsize] at ($(current page.south east)+(0,.25)$) {\insertauthor};
-		\node[anchor=west,topic,font=\scriptsize] at ($(current page.south west)+(0,.25)$) {\insertdate};
+		\fill[slidebgcolor] (current page.north west) rectangle (current page.south east);
+		\fill[topic] ($(current page.north west)+(.8,-1.45)$) rectangle ++(1.2,.08);
+		\node[anchor=north west,text=accentink,font=\small\sffamily]
+		at ($(current page.north west)+(.8,-.85)$) {SilverFOCS / Incubator};
+		\node[anchor=west,text=titlefgcolor,font=\fontsize{30}{36}\selectfont\bfseries,
+			align=left,text width=.84\paperwidth]
+		at ($(current page.west)+(.8,.3)$) {\inserttitle};
+		\node[anchor=north west,text=slidefgcolor,font=\large,align=left,
+			text width=.84\paperwidth]
+		at ($(current page.west)+(.8,-.8)$) {\insertsubtitle};
+		\draw[slidefgcolor!20] ($(current page.south west)+(.8,1.2)$)
+		-- ($(current page.south east)+(-.8,1.2)$);
+		\node[anchor=west,text=slidefgcolor,font=\small]
+		at ($(current page.south west)+(.8,.75)$) {\insertauthor};
+		\node[anchor=east,text=slidefgcolor,font=\small]
+		at ($(current page.south east)+(-.8,.75)$) {\insertdate};
 	\end{tikzpicture}
 }
 
 % template for last frame
-\setbeamertemplate{sfocs-tksframe}{
-	\tikz[remember picture,overlay] \node[text=structbgcolor,anchor=east] at ($(current page.south east)+(-.25,.5)$) {Thank you!};
+\setbeamertemplate{sfocs-tksframe}{				
+	\tikz[remember picture,overlay] \node[text=slidefgcolor,font=\Huge] at (current page.center) {Thank you!};
 }
 
 % section pages
@@ -192,29 +158,29 @@
 \newcounter{totsec}
 \newcounter{tsec}
 
-\newcommand*{\splitsections}[1][\inserttitle]{
+\newcommand*{\splitsections}[1][\inserttitle]{				
 	\setcounter{totsec}{\totvalue{section}}
 	\setcounter{tsec}{\thetotsec}
 	\stepcounter{tsec}
 	\ifnum\thetotsec>0
 		\begin{tikzpicture}[remember picture,overlay]
-			\fill[secfgcolor] (current page.north west) rectangle ($(current page.south	east)+(0,3)$);
+			\fill[slidebgcolor] (current page.north west) rectangle ($(current page.south	east)+(0,3)$);
 			\node[secfgcolor,inner sep=0pt,font=\Large,align=center,text width=5cm] at ($(current page.south west)+(2.6,1.5)$) {#1};
 			\draw[ultra thin] ($(current page.south west)+(5.2,2.65)$) -- ($(current page.south west)+(5.2,.35)$);
 			\pgfmathsetmacro{\secspace}{3.5/\thetsec}
-			\foreach \i in {1,...,\thetotsec}{
+			\foreach \i in {1,...,\thetotsec}{				
 					\ifnum \i=\thesection
-						\node[text=secfgcolor!5,inner sep=0pt,anchor=west,align=left,text width=7.2cm] at ($(current page.south west)+(5.4,3.25-\i*\secspace)$) {\hyperlink{sec:\thepart:\i}{\ztitleref{sec:\thepart:\i}}};
+						\node[text=accentink,font=\bfseries,inner sep=0pt,anchor=west,align=left,text width=7.2cm] at ($(current page.south west)+(5.4,3.25-\i*\secspace)$) {\hyperlink{sec:\thepart:\i}{\ztitleref{sec:\thepart:\i}}};
 					\else
 						\node[text=secfgcolor,inner sep=0pt,anchor=west,align=left,text width=7.2cm] at ($(current page.south west)+(5.4,3.25-\i*\secspace)$) {\hyperlink{sec:\thepart:\i}{\ztitleref{sec:\thepart:\i}}};
 					\fi
 				}
-			\node[font=\fontsize{50}{55}\selectfont,text=secbgcolor!80!black!60,align=center,text	width=.95\paperwidth] at ($(current page.center)+(0,1.5)$) {\ztitleref{sec:\thepart:\thesection}};
+			\node[font=\fontsize{50}{55}\selectfont,text=slidefgcolor,align=center,text	width=.95\paperwidth] at ($(current page.center)+(0,1.5)$) {\ztitleref{sec:\thepart:\thesection}};
 		\end{tikzpicture}
 	\fi
 }
 
-\defbeamertemplate*{section page}{sfocs-sectionpage}{
+\defbeamertemplate*{section page}{sfocs-sectionpage}{				
 	\splitsections
 }
 
@@ -224,16 +190,16 @@
 %
 
 % displayed at the start of asection
-\AtBeginSection[]  {
+\AtBeginSection[]  {				
 	\setbeamercolor*{palette primary}{fg=secfgcolor,bg=secbgcolor}
 	\setbeamercolor*{palette tertiary}{fg=secfgcolor,bg=secbgcolor}
 	\usebeamercolor[fg]{palette primary}
 	\setbeamertemplate{background canvas}[plain-section][secbgcolor]
-
+	
 	\begin{frame}[label={sec:\thepart:\thesection}]{}
 		\sectionpage
 	\end{frame}
-
+	
 	\setbeamercolor*{palette primary}{fg=slidefgcolor,bg=slidebgcolor}
 	\setbeamercolor*{palette tertiary}{fg=structfgcolor,bg=structbgcolor}
 	\usebeamercolor[fg]{palette primary}
@@ -241,45 +207,44 @@
 }
 
 % black bg, free full slide content
-\newenvironment{framem}[2][]{
+\newenvironment{framem}[2][]{				
 	\setbeamertemplate{background canvas}[plain-slide]
 	\setbeamercolor*{palette primary}{fg=white!80!black,bg=black}
 	\usebeamercolor[fg]{palette primary}
 	% \setbeamercolor*{palette tertiary}{fg=white!75!black,bg=black}
 	\hypersetup{urlcolor=.}
 	\begin{frame}[fragile,environment=framem,#1]{#2}
-		}{
+}{				
 	\end{frame}
 }
 
 % black bg, full slide pic
-\newenvironment{framef}[2][center]{
+\newenvironment{framef}[2][center]{				
 	\setbeamertemplate{background canvas}[plain-slide]
 	\setbeamercolor*{palette primary}{fg=white!80!black,bg=black}
 	\usebeamercolor[fg]{palette primary}
 	\hypersetup{urlcolor=.}
 	\begin{frame}[environment=framef,plain]
-		\begin{tikzpicture}[remember picture,overlay]
-			\node[black,inner sep=0,anchor=#1] at (current page.#1) {\includegraphics[height=\paperheight,width=\paperwidth,keepaspectratio]{#2}};
-		\end{tikzpicture}
-		}{
+	\begin{tikzpicture}[remember picture,overlay]
+		\node[black,inner sep=0,anchor=#1] at (current page.#1) {\includegraphics[height=\paperheight,width=\paperwidth,keepaspectratio]{#2}};
+	\end{tikzpicture}
+}{				
 	\end{frame}
 }
 
 
 % summary slide with key points
-\newenvironment{framek}[1][Highlights]{
-	\setbeamertemplate{footline}[empty]
+\newenvironment{framek}[1][Highlights]{				
 	\setbeamercolor*{palette primary}{fg=keyfgcolor,bg=keybgcolor}
+	\usebeamercolor[fg]{palette primary}
 	\setbeamertemplate{background canvas}[default]
 	\begin{frame}[environment=framek]{#1}
-		}{
+}{				
 	\end{frame}
 }
 
 % last frame (thanks)
-\newcommand*{\thankframe}{
-	\setbeamertemplate{footline}[empty]
+\newcommand*{\thankframe}{				
 	\setbeamercolor*{palette primary}{fg=titlefgcolor,bg=titlebgcolor}
 	\usebeamercolor[fg]{palette primary}
 	\setbeamertemplate{background canvas}[plain-slide]
@@ -291,43 +256,30 @@
 % frametitle
 %
 
-\tikzset{
-	pics/ftitlehorizshading/.style args={#1/#2}{code={
-					\pgfdeclarehorizontalshading{horizshading}{#2} {color(0cm)=(#1!90!black); color(\the\paperwidth)=(#1)}
-					\node[anchor=north west,inner sep=0,outer sep=0] at (current page.north west) {\pgfuseshading{horizshading}};
-				}
-		},
-	pics/logo/.style args={#1/#2}{code={
-					\pgfmathsetmacro{\imghh}{-.5*\imgh}
-					\pgfmathsetmacro{\sdone}{\imgh*(\insertframenumber/\inserttotalframenumber)+\imghh}
-
-					% logo_e must be available for xetex (opacity not supported)
-					\IfFileExists{\logo_e.pdf}{\def\logoe{\logo_e}\def\logoo{1}}{\def\logoe{\logo}\def\logoo{.4}}
-
-					\node[opacity=\logoo] at (.1625,0) {\includegraphics[width=.6cm,height=.5cm,keepaspectratio]{\logoe}};
-					\begin{scope}
-						\clip (-.3,\imghh) rectangle (.5,\sdone);
-						\node (logo) at (.1625,0) {\includegraphics[width=.6cm,height=.5cm,keepaspectratio]{\logo}};
-					\end{scope}
-				}
-		},
-}
-
-\defbeamertemplate*{frametitle}{ftitle}[1][1]{
-	% compute logo size	
-	\picheight{\logo}{.6cm}
+\defbeamertemplate*{frametitle}{ftitle}{				
 	\nointerlineskip
 	\begin{beamercolorbox}[wd=\paperwidth,ht=.65cm]{frametitle}
 		\begin{tikzpicture}[remember picture,overlay]
-			\path (current page.north west) pic {ftitlehorizshading=bg/.65cm};
-			\path ($(current page.north west)+(.325,-.325)$) pic {logo=3/1};
-			\node[anchor=east,align=right,font=\large\vphantom{Ag},inner sep=0pt] at ($(current page.north east)+(-.325,-.325)$) {\insertframetitle\par};
+			\fill[structbgcolor] (current page.north west)
+			rectangle ($(current page.north east)+(0,-.65)$);
+			            % Frame-based progress stays fixed during overlays; negative angles run clockwise.
+            \coordinate (progresscenter) at ($(current page.north west)+(.325,-.325)$);
+            \pgfmathsetmacro{\progressangle}{90-360*min(1,\insertframenumber/max(1,\inserttotalframenumber))}
+            \draw[slidefgcolor!20,line width=1.2pt] (progresscenter) circle[radius=.22cm];
+            \draw[accentink,line width=1.2pt,line cap=round]
+                ($(progresscenter)+(0,.22)$) arc[start angle=90,end angle=\progressangle,radius=.22cm];
+            \node[text=slidefgcolor,font=\tiny\bfseries,inner sep=0pt]
+                at (progresscenter) {\insertframenumber};
+            \node[anchor=east,align=right,text=structfgcolor,font=\large,inner sep=0pt]
+                at ($(current page.north east)+(-.325,-.325)$) {\insertframetitle};
 		\end{tikzpicture}
 	\end{beamercolorbox}
 }
 
+% Indicators belong to the frametitle, so untitled and plain slides omit them.
+\setbeamertemplate{footline}{}
 
-\defbeamertemplate*{background canvas}{plain-slide}[1][bg] {
+\defbeamertemplate*{background canvas}{plain-slide}[1][bg] {				
 	\begin{pgfpicture}{0cm}{0cm}{\paperwidth}{\paperheight}
 		\color{#1}
 		\pgfpathrectangle{\pgfpointorigin}{\pgfpoint{\paperwidth}{\paperheight}}
@@ -350,7 +302,7 @@
 
 \setbeamercolor*{palette tertiary}{fg=structfgcolor,bg=structbgcolor}
 \setbeamercolor*{structure}{parent=palette tertiary}
-\setbeamercolor*{alerted text}{parent=palette tertiary,fg=structbgcolor}
+\setbeamercolor*{alerted text}{parent=palette tertiary,fg=accentink}
 
 %
 % basic aesthetics fixes (mainly spacing)
@@ -359,7 +311,7 @@
 % beamer item with wider space
 \RequirePackage{xpatch}
 
-\xpatchcmd{\itemize}{\def\makelabel}{
+\xpatchcmd{\itemize}{\def\makelabel}{				
 	\ifnum\@itemdepth=1\relax
 		\setlength\itemsep{.25cm}% separation for first level
 		\setlength\topsep{.125cm}% separation for first level
@@ -438,9 +390,9 @@
 	\fixenddocument%
 }
 
-\newcommand{\important}[1]{
+\newcommand{\important}[1]{				
 	\begin{columns}\column{\paperwidth}
-		\tikz \node[rectangle,fill=structbgcolor,minimum width=\paperwidth,minimum height=1cm,align=center,text width=.9\paperwidth,font=\Large] {#1};
+		\tikz \node[rectangle,fill=structbgcolor,minimum width=\paperwidth,minimum height=1cm,align=center,text width=.9\paperwidth,font=\Large,text=structfgcolor] {#1};
 	\end{columns}
 }
 
@@ -512,7 +464,7 @@
 % }
 
 % path of files in lecture slides
-	\def\codepath{code/}
+\def\codepath{code/}
 
 % hide cached minted code
 % WARNING: latexmk is asked to compile in .lmk => manually adjust outputdir
@@ -522,25 +474,25 @@
 % colorboxes
 \RequirePackage{tcolorbox}
 \tcbuselibrary{breakable,listingsutf8,minted,skins,raster,xparse}
-\tcbset{
-	cs/.style={
-		listing engine=minted,
-		fonttitle=\small,
-		fontlower=\small,
-		enhanced,left=1mm,top=.1cm, right=.1cm, bottom=.1cm,
-	},
-	csfbox/.style={
-		enhanced jigsaw, cs, listing only,	left=6mm,top=.1cm, right=.1cm, bottom=.1cm, 
-		minted options={fontsize=#1,linenos,numbersep=3mm,tabsize=2},
-		minted style=manni,	colback=white,colframe=black!83,coltext=black,
-	},
-	codetbox/.style={
-		cs,listing only, left=6mm,top=.1cm, right=.1cm, bottom=.1cm,
-		minted options={fontsize=#1,linenos,numbersep=3mm,tabsize=2},
-	},
-	docbox/.style={
-		cs,minted options={fontsize=#1,tabsize=2}
-	}
+\tcbset{				
+	cs/.style={				
+			listing engine=minted,
+			fonttitle=\small,
+			fontlower=\small,
+			enhanced,left=1mm,top=.1cm, right=.1cm, bottom=.1cm,
+		},
+	csfbox/.style={				
+			enhanced jigsaw, cs, listing only,	left=6mm,top=.1cm, right=.1cm, bottom=.1cm, 
+			minted options={fontsize=#1,linenos,numbersep=3mm,tabsize=2},
+			minted style=manni,	colback=white,colframe=black!83,coltext=black,
+		},
+	codetbox/.style={				
+			cs,listing only, left=6mm,top=.1cm, right=.1cm, bottom=.1cm,
+			minted options={fontsize=#1,linenos,numbersep=3mm,tabsize=2},
+		},
+	docbox/.style={				
+			cs,minted options={fontsize=#1,tabsize=2}
+		}
 }
 
 % line numbers 
@@ -554,27 +506,27 @@
 %}
 
 % * version is breakable -> incompatible with rasterbox 
-\DeclareTCBInputListing{\csfbox}{s O{\small} m m m }{
+\DeclareTCBInputListing{\csfbox}{s O{\small} m m m }{				
 	\IfBooleanTF#1{breakable}{},
-	csfbox=#2,title=#3,listing file={\codepath #4},minted language=#5,overlay={
-		\begin{tcbclipinterior}\fill[black!15!white] (frame.south west)	rectangle ([xshift=5mm]frame.north west);\end{tcbclipinterior},
-	}
+	csfbox=#2,title=#3,listing file={\codepath #4},minted language=#5,overlay={				
+			\begin{tcbclipinterior}\fill[black!15!white] (frame.south west)	rectangle ([xshift=5mm]frame.north west);\end{tcbclipinterior},
+		}
 }
 
 % auto detect current file type based on its extension
 % need % at end of line to prevent raster to fail
 \newcommand{\filetype}[1]{%
-\IfSubStr{#1}{Makefile}{\def\ftype{make}}{%
-\IfEndWith{#1}{.cpp}{\def\ftype{c++}}{%
-\IfEndWith{#1}{.h}{\def\ftype{c++}}{%
-\IfEndWith{#1}{.c}{\def\ftype{c}}{%
-\IfEndWith{#1}{.m}{\def\ftype{matlab}}{%
-\IfEndWith{#1}{.py}{\def\ftype{python}}{%
-\IfEndWith{#1}{.sty}{\def\ftype{latex}}{%
-\IfEndWith{#1}{.tex}{\def\ftype{latex}}{%
-\IfEndWith{#1}{.elm}{\def\ftype{elm}}{%
-\def\ftype{R}%
-}}}}}}}}}}
+	\IfSubStr{#1}{Makefile}{\def\ftype{make}}{%
+		\IfEndWith{#1}{.cpp}{\def\ftype{c++}}{%
+			\IfEndWith{#1}{.h}{\def\ftype{c++}}{%
+				\IfEndWith{#1}{.c}{\def\ftype{c}}{%
+					\IfEndWith{#1}{.m}{\def\ftype{matlab}}{%
+						\IfEndWith{#1}{.py}{\def\ftype{python}}{%
+							\IfEndWith{#1}{.sty}{\def\ftype{latex}}{%
+								\IfEndWith{#1}{.tex}{\def\ftype{latex}}{%
+									\IfEndWith{#1}{.elm}{\def\ftype{elm}}{%
+										\def\ftype{R}%
+									}}}}}}}}}}
 
 % minted fix (https://github.com/gpoore/minted/issues/354)
 \def\minted@opt@quote#1{\detokenize\expandafter{\expandafter'\expanded{#1}'}}
@@ -588,30 +540,30 @@
 }
 
 % inline code
-\mode<beamer|trans>{
-	\DeclareTCBListing{codetbox}{ O{\small} m }{
-		codetbox=#1,minted language=#2,minted style=monokai, colback=black!88,colframe=white,coltext=white,	overlay={
-		\begin{tcbclipinterior}\fill[white!25!black] (frame.south west)rectangle ([xshift=5mm]frame.north west);\end{tcbclipinterior}
+\mode<beamer|trans>{				
+		\DeclareTCBListing{codetbox}{ O{\small} m }{				
+			codetbox=#1,minted language=#2,minted style=friendly, colback=slidefgcolor!3!white,colframe=slidefgcolor!25,coltext=slidefgcolor,	overlay={				
+					\begin{tcbclipinterior}\fill[slidefgcolor!10!white] (frame.south west)rectangle ([xshift=5mm]frame.north west);\end{tcbclipinterior}
+				}
 		}
 	}
-}
 
-\mode<handout>{
-	\DeclareTCBListing{codetbox}{ O{\small} m }{
-		codetbox=#1,minted language=#2,minted style=friendly,	colback=black!8,colframe=black!88,coltext=black,overlay={
-		\begin{tcbclipinterior}\fill[white!75!black] (frame.south west)rectangle ([xshift=5mm]frame.north west);\end{tcbclipinterior}
+\mode<handout>{				
+		\DeclareTCBListing{codetbox}{ O{\small} m }{				
+			codetbox=#1,minted language=#2,minted style=friendly,	colback=black!8,colframe=black!88,coltext=black,overlay={				
+					\begin{tcbclipinterior}\fill[white!75!black] (frame.south west)rectangle ([xshift=5mm]frame.north west);\end{tcbclipinterior}
+				}
 		}
 	}
-}
 
 
 % doc box
-\DeclareTCBListing{docbox}{ O{\small} m !O{}}{
+\DeclareTCBListing{docbox}{ O{\small} m !O{}}{				
 	docbox=#1,colframe=black!82.5,sidebyside,lower separated=false,halign lower=left, listing side text,title=#2,#3
 }
 
 % terminal
-\newtcblisting{shbox}[1][sh]{
+\newtcblisting{shbox}[1][sh]{				
 	listing inputencoding=utf8,listing engine=listings,colback=black!88,coltext=white,colframe=red!60, left=2mm,top=.1cm, right=.1cm, bottom=.1cm,
 	listing only,listing options={style=tcblatex,language=sh},every listing line={\textcolor{blue!60}{\small\ttfamily\bfseries #1 \$ }}
 }
